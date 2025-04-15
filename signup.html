@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+
+    <style>
+        .main{
+            display: flex;
+            margin-left: 300px;
+            margin-top: 50px;
+            margin-right: 300px;
+            box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .first{
+            background: linear-gradient(45deg, #ff8c94, #ffd3a0);
+            height: 700px;
+            width: 500px;
+            border-radius: 10px;
+            
+        }
+
+        .pf{
+            text-align: center;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .second{
+            height: 700px;
+            width: 500px;
+        }
+
+        .he{
+            padding-top: 250px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 50px;
+            text-align: center;
+        }
+
+        .me{
+            padding-top: 50px;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .ps{
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+
+        form{
+            text-align: center;
+            padding-left: 50px;
+        }
+        input{
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px;
+            width: 280px;
+            font-size: 15px;
+        }
+
+        button{
+            border-radius: 5px;
+            background-color: #ff8c94;
+            color: #fff;
+            padding: 10px;
+            width: 200px;
+            margin-top: 20px;
+        }
+        .pl{
+            text-align: center;
+            position: relative;
+            top: 400px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="first">
+            <h1 class="he">Register & Be A Part Of The AuraLooms Circle!</h1>
+            <p class="pf">Enjoy exclusive benefits like:
+
+                - Flat 15% Off on your first order* | Use code: GLAM15
+                
+                - Exclusive early collection showcase
+                
+                - Access amazing offers, discounts and more
+                
+                Join Now!</p>
+        </div>
+        <div class="second">
+            <h2 class="me">Sign Up</h2>
+            <p class="ps">
+                Welcome to AuraLooms  <br>
+                It's quick and easy to set up an account
+            </p>
+            <form id="signup-form" method="get" style="display: inline-block; ">
+                <input type="text" placeholder="First Name" id="firstName"><br>
+                <input type="text" placeholder="Last Name" id="lastName"><br>
+                <input type="text" placeholder="Mobile Number" id="mobile"><br>
+                <input type="email" placeholder="Email" id="email"><br>
+                <input type="password" placeholder="Password" id="password"><br>
+                <button type="submit">Sign Up</button>
+                <a href="login.html"><button type="button">Login</button></a>
+            </form>
+            <p class="pl">
+                By continuing, I agree to the Terms of Use and Privacy Policy</p>
+        </div>
+    </div>
+    <script type="module">
+        // Import modular Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+      
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAx7xeab-XudSe3pK89Wv4_583l5RF7iF8",
+          authDomain: "auraloom-d3a70.firebaseapp.com",
+          projectId: "auraloom-d3a70",
+          storageBucket: "auraloom-d3a70.appspot.com",
+          messagingSenderId: "100860515310",
+          appId: "1:100860515310:web:437850a6384daabbcf74ff",
+          measurementId: "G-K901KTFNYT"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+      
+        // Handle Signup Form
+        document.getElementById("signup-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+      
+          // Get form values
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
+          const mobile = document.getElementById("mobile").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+      
+          // Create user with Firebase Authentication
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              const uid = user.uid;
+      
+              // Save user details to Realtime Database
+              set(ref(database, 'users/' + uid), {
+                firstName: firstName,
+                lastName: lastName,
+                mobile: mobile,
+                email: email
+              });
+      
+              alert("Signup successful! Your data is stored.");
+              document.getElementById("signup-form").reset();
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("Signup failed: " + error.message);
+            });
+        });
+      </script>      
+</body>
+</html>

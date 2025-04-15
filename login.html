@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - AuraLooms</title>
+</head>
+<body>
+  <h2>Login to AuraLooms</h2>
+  <form id="login-form">
+    <input type="email" placeholder="Email" id="loginEmail" required><br>
+    <input type="password" placeholder="Password" id="loginPassword" required><br>
+    <button type="submit" id="loginBtn">Login</button>
+  </form>
+
+  <!-- Firebase Modular SDKs -->
+  <script type="module">
+    // Import Firebase SDK modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAx7xeab-XudSe3pK89Wv4_583l5RF7iF8",
+      authDomain: "auraloom-d3a70.firebaseapp.com",
+      projectId: "auraloom-d3a70",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Handle Login Form
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent page reload
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Login successful!");
+          window.location.href = "index.html"; // ✅ Redirects to home page
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
