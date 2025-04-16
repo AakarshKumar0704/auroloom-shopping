@@ -4,35 +4,94 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - AuraLooms</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #357ABD;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Login to AuraLooms</h2>
-  <form id="login-form">
-    <input type="email" placeholder="Email" id="loginEmail" required><br>
-    <input type="password" placeholder="Password" id="loginPassword" required><br>
-    <button type="submit" id="loginBtn">Login</button>
-  </form>
+  <div class="login-container">
+    <h2>Login to AuraLooms</h2>
+    <form id="login-form">
+      <input type="email" placeholder="Email" id="loginEmail" required><br>
+      <input type="password" placeholder="Password" id="loginPassword" required><br>
+      <button type="submit" id="loginBtn">Login</button>
+    </form>
+  </div>
 
   <!-- Firebase Modular SDKs -->
   <script type="module">
-    // Import Firebase SDK modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAx7xeab-XudSe3pK89Wv4_583l5RF7iF8",
       authDomain: "auraloom-d3a70.firebaseapp.com",
       projectId: "auraloom-d3a70",
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Handle Login Form
     document.getElementById("login-form").addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent page reload
+      e.preventDefault();
 
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
@@ -40,7 +99,7 @@
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           alert("Login successful!");
-          window.location.href = "index.html"; // ✅ Redirects to home page
+          window.location.href = "index.html";
         })
         .catch((error) => {
           alert("Login failed: " + error.message);
